@@ -22,6 +22,7 @@ MAX_CONTENT_LENGTH = 500
 MAX_UPLOAD_BYTES = 4_500_000
 ISTANBUL_TZ = ZoneInfo("Europe/Istanbul")
 ROOT = Path(__file__).resolve().parents[1]
+APP_VERSION = "2026-04-27-render-email-fallback"
 logger = logging.getLogger(__name__)
 
 app = FastAPI(title="H&C Otomotiv Content Pipeline")
@@ -112,8 +113,8 @@ async def _handle_render(
 
 
 @app.get("/api/health")
-def health() -> dict[str, bool]:
-    return {"ok": True}
+def health() -> dict[str, bool | str]:
+    return {"ok": True, "version": APP_VERSION}
 
 
 @app.get("/")
