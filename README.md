@@ -52,15 +52,14 @@ SEND_EMAIL=false
 
 ## Logo Assets
 
-The renderer looks for these files in order:
+The repository includes the production logo variants:
 
 ```text
-assets/logo-light.png
-assets/logo-dark.png
-assets/logo.png
+assets/logo-light.png  # black logo for light frames
+assets/logo-dark.png   # white logo for dark frames
 ```
 
-If no logo is present, the backend draws a simple H&C fallback mark so the app still works after deployment. Replace it with transparent PNG logo files when H&C provides final artwork.
+The generated PNG uses a thin frame and a small top-right logo mark. Phone number and location text are not drawn onto the image.
 
 ## Local Development
 
