@@ -39,14 +39,16 @@ Set these in Vercel before deploying:
 GMAIL_USER=hcposts@gmail.com
 GMAIL_APP_PASSWORD=your-gmail-app-password
 SMTP_FROM=hcposts@gmail.com
+DEFAULT_RECIPIENT_EMAILS=operator1@example.com,operator2@example.com
 ```
 
 Optional:
 
 ```bash
-DEFAULT_RECIPIENT_EMAIL=operator@example.com
 SEND_EMAIL=false
 ```
+
+`DEFAULT_RECIPIENT_EMAILS` is a comma-separated list. The operator page no longer asks for an email address; every generated post is sent to these defaults.
 
 `SEND_EMAIL=false` is useful for smoke testing rendering without sending real email.
 
@@ -67,7 +69,7 @@ The generated PNG uses a thin frame and a small top-right logo mark. Phone numbe
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-SEND_EMAIL=false uvicorn api.render:app --reload
+DEFAULT_RECIPIENT_EMAILS=operator@example.com SEND_EMAIL=false uvicorn api.render:app --reload
 ```
 
 Open `http://127.0.0.1:8000` for the local app. The same FastAPI process serves `index.html` and `/api/render`.

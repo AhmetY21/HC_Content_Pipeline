@@ -147,14 +147,14 @@ button, input, textarea { font: inherit; }
 }
 .idea-chip:hover { border-color: var(--accent); color: var(--text); }
 .idea-chip.selected { background: var(--accent); color: #000; border-color: var(--accent); font-weight: 600; }
-.input-area, .email-input {
+.input-area {
   width: 100%; padding: 16px; border-radius: 10px;
   border: 1px solid var(--border); background: var(--surface);
   color: var(--text); font-size: 14px; outline: none; transition: border-color 0.2s;
 }
 .input-area { resize: vertical; min-height: 90px; }
-.input-area:focus, .email-input:focus { border-color: var(--accent); }
-.input-area::placeholder, .email-input::placeholder { color: var(--text-dim); }
+.input-area:focus { border-color: var(--accent); }
+.input-area::placeholder { color: var(--text-dim); }
 .tone-row { display: flex; gap: 6px; margin: 12px 0; flex-wrap: wrap; }
 .tone-btn {
   padding: 6px 14px; border-radius: 20px;
@@ -349,7 +349,6 @@ let state = {
   selectedTone: "story",
   frameMode: localStorage.getItem("hc_frame_mode") || "light",
   content: "",
-  email: localStorage.getItem("hc_operator_email") || "",
   originalFile: null,
   originalUrl: "",
   uploadBlob: null,
@@ -357,8 +356,6 @@ let state = {
   output: null,
   previewUrl: "",
   variant: 0,
-  showCalendar: false,
-  showIdeas: false,
   copied: null,
   busy: false,
   drag: false,
@@ -389,7 +386,7 @@ function render() {
   state.output = currentOutput();
   const today = getTodayPlan();
   const todayCat = CATEGORIES.find(c => c.id === today.catId);
-  const canSubmit = state.uploadBlob && state.selectedCat && state.content.trim() && state.email.trim() && !state.busy;
+  const canSubmit = state.uploadBlob && state.selectedCat && state.content.trim() && !state.busy;
   const output = state.output;
   let html = "";
 
@@ -423,35 +420,6 @@ function render() {
     <button class="frame-btn ${state.frameMode === "dark" ? "active" : ""}" onclick="pickFrame('dark')">Koyu Çerçeve</button>
   </div>`;
 
-  html += `<div class="toggle-row">
-    <button class="toggle-btn ${state.showCalendar ? "active" : ""}" onclick="toggleCal()">📆 Haftalık Plan</button>
-    <button class="toggle-btn ${state.showIdeas ? "active" : ""}" onclick="toggleIdeas()">💡 İçerik Fikirleri</button>
-  </div>`;
-
-  if (state.showCalendar) {
-    html += `<div class="panel"><div class="panel-inner"><h3>Haftalık İçerik Takvimi</h3>`;
-    WEEKLY.forEach((w, i) => {
-      const cat = CATEGORIES.find(c => c.id === w.catId);
-      html += `<div class="week-row">
-        <div class="week-day ${i === today.index ? "today" : ""}">${w.day}</div>
-        <div class="week-icon">${cat.icon}</div>
-        <div class="week-info">
-          <div class="week-cat">${cat.label}</div>
-          <div class="week-hint">${w.hint}</div>
-        </div>
-      </div>`;
-    });
-    html += `</div></div>`;
-  }
-
-  if (state.showIdeas && state.selectedCat && IDEAS[state.selectedCat.id]) {
-    html += `<div class="panel"><div class="panel-inner"><h3>${state.selectedCat.icon} ${state.selectedCat.label} İçerik Fikirleri</h3><div class="ideas-wrap">`;
-    IDEAS[state.selectedCat.id].forEach(idea => {
-      html += `<button class="idea-chip ${state.content === idea ? "selected" : ""}" onclick="pickIdea(${JSON.stringify(idea)})">${escapeHtml(idea)}</button>`;
-    });
-    html += `</div></div></div>`;
-  }
-
   html += `<span class="section-label">3. Kategori Seçin</span><div class="cat-grid">`;
   CATEGORIES.forEach(cat => {
     html += `<button class="cat-btn ${state.selectedCat?.id === cat.id ? "selected" : ""}" onclick="pickCat('${cat.id}')">
@@ -466,14 +434,19 @@ function render() {
   html += `<span class="section-label">4. İçerik / Konu</span>
   <textarea class="input-area" id="contentInput" maxlength="500" placeholder="Örn: '${escapeHtml(placeholder)}'" oninput="updateContent(this.value)">${escapeHtml(state.content)}</textarea>`;
 
+  if (state.selectedCat && IDEAS[state.selectedCat.id]) {
+    html += `<div class="panel"><div class="panel-inner"><h3>${state.selectedCat.icon} ${state.selectedCat.label} İçerik Fikirleri</h3><div class="ideas-wrap">`;
+    IDEAS[state.selectedCat.id].forEach(idea => {
+      html += `<button class="idea-chip ${state.content === idea ? "selected" : ""}" onclick="pickIdea(${JSON.stringify(idea)})">${escapeHtml(idea)}</button>`;
+    });
+    html += `</div></div></div>`;
+  }
+
   html += `<span class="section-label">5. Ton Seçin</span><div class="tone-row">`;
   TONES.forEach(t => {
     html += `<button class="tone-btn ${state.selectedTone === t.id ? "active" : ""}" onclick="pickTone('${t.id}')">${t.label}</button>`;
   });
   html += `</div>`;
-
-  html += `<span class="section-label">6. E-posta</span>
-  <input class="email-input" id="emailInput" type="email" inputmode="email" autocomplete="email" placeholder="operator@example.com" value="${escapeHtml(state.email)}" oninput="updateEmail(this.value)">`;
 
   if (output) html += renderOutput(output, false);
 
@@ -488,7 +461,7 @@ function render() {
   if (state.previewUrl && output) html += renderOutput(output, true);
 
   html += `<div class="panel pipeline"><div class="panel-inner">
-    <h3>📱 Günlük Pipeline — 2 Dakikada Post</h3>
+    <h3>📱 Günlük Akış — 2 Dakikada Post</h3>
     ${[
       {s:"1",t:"Serviste fotoğraf çek ve bu sayfaya yükle",time:"30 sn"},
       {s:"2",t:"Kategori, çerçeve, ton ve kısa konuyu seç",time:"45 sn"},
@@ -616,12 +589,6 @@ function updateContent(value) {
   clearTimeout(contentRenderTimer);
   contentRenderTimer = setTimeout(render, 180);
 }
-function updateEmail(value) {
-  state.email = value;
-  localStorage.setItem("hc_operator_email", value);
-}
-function toggleCal() { state.showCalendar = !state.showCalendar; state.showIdeas = false; render(); }
-function toggleIdeas() { state.showIdeas = !state.showIdeas; state.showCalendar = false; render(); }
 function doVariant() { state.variant++; state.previewUrl = ""; render(); }
 
 function doCopy(type) {
@@ -649,7 +616,6 @@ async function submitPost() {
   form.append("tone", state.selectedTone);
   form.append("frame_mode", state.frameMode);
   form.append("content", state.content.trim());
-  form.append("email", state.email.trim());
   form.append("variant", String(state.variant));
 
   try {

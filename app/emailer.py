@@ -34,7 +34,7 @@ Açıklama metni ve hashtag'ler aşağıda — kopyala/yapıştır ile kullanabi
 
 def send_post_email(
     *,
-    recipient: str,
+    recipients: tuple[str, ...],
     category: str,
     caption: str,
     hashtags: str,
@@ -45,6 +45,8 @@ def send_post_email(
         return False
     if not settings.smtp_user or not settings.smtp_password:
         raise RuntimeError("Gmail SMTP bilgileri eksik. GMAIL_USER ve GMAIL_APP_PASSWORD ayarlanmalı.")
+    if not recipients:
+        raise RuntimeError("Varsayılan alıcı e-posta eksik. DEFAULT_RECIPIENT_EMAILS ayarlanmalı.")
 
     today = today or date.today()
     category_label = CATEGORIES[category].label
@@ -53,7 +55,7 @@ def send_post_email(
     message = EmailMessage()
     message["Subject"] = f"[H&C Posts] {category_label} — {format_turkish_date(today)}"
     message["From"] = settings.smtp_from or settings.smtp_user
-    message["To"] = recipient
+    message["To"] = ", ".join(recipients)
     message.set_content(build_email_body(caption, hashtags), charset="utf-8")
     message.add_attachment(
         png_bytes,
@@ -67,4 +69,3 @@ def send_post_email(
         smtp.send_message(message)
 
     return True
-

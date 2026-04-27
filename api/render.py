@@ -63,7 +63,10 @@ async def _handle_render(
         return _error("Lütfen bir konu yazın.")
     if len(content) > MAX_CONTENT_LENGTH:
         return _error("Konu en fazla 500 karakter olabilir.")
-    if not EMAIL_RE.match(email):
+    recipients = (email,) if email else settings.default_recipients
+    if not recipients:
+        return _error("Varsayılan alıcı e-posta eksik. DEFAULT_RECIPIENT_EMAILS ayarlanmalı.", status_code=500)
+    if any(not EMAIL_RE.match(recipient) for recipient in recipients):
         return _error("Lütfen geçerli bir e-posta adresi girin.")
 
     photo_bytes = await photo.read()
@@ -85,7 +88,7 @@ async def _handle_render(
     email_error = ""
     try:
         email_sent = send_post_email(
-            recipient=email,
+            recipients=recipients,
             category=category,
             caption=caption,
             hashtags=hashtags,
@@ -129,7 +132,7 @@ async def render_root(
     tone: str = Form(...),
     frame_mode: str = Form(...),
     content: str = Form(...),
-    email: str = Form(...),
+    email: str = Form(""),
     variant: int = Form(0),
 ) -> JSONResponse:
     return await _handle_render(photo, category, tone, frame_mode, content, email, variant)
@@ -142,7 +145,7 @@ async def render_api(
     tone: str = Form(...),
     frame_mode: str = Form(...),
     content: str = Form(...),
-    email: str = Form(...),
+    email: str = Form(""),
     variant: int = Form(0),
 ) -> JSONResponse:
     return await _handle_render(photo, category, tone, frame_mode, content, email, variant)
