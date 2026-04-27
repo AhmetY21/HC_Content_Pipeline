@@ -1,0 +1,15 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "version": 2,
+  "functions": {
+    "api/render.py": {
+      "maxDuration": 60,
+      "excludeFiles": "{.venv/**,__pycache__/**,**/__pycache__/**,.pytest_cache/**}"
+    }
+  },
+  "routes": [
+    { "src": "/api/render", "dest": "/api/render.py" },
+    { "src": "/api/health", "dest": "/api/render.py" },
+    { "src": "/(.*)", "dest": "/index.html" }
+  ]
+}

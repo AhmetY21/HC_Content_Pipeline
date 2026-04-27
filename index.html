@@ -23,10 +23,9 @@
   --blue-bg: rgba(85,136,255,0.08);
   --yellow: #ffcc44;
   --yellow-bg: rgba(255,204,68,0.08);
-  --orange: #ff8844;
   --radius: 12px;
 }
-* { margin:0; padding:0; box-sizing:border-box; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
 body {
   font-family: 'Outfit', sans-serif;
   background: var(--bg);
@@ -34,26 +33,17 @@ body {
   line-height: 1.6;
   min-height: 100vh;
 }
-.app { max-width: 760px; margin: 0 auto; padding: 16px; }
-
-/* Grain overlay */
 body::after {
   content: '';
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  position: fixed; inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
   pointer-events: none; z-index: 9999;
 }
-
-/* Header */
-.header {
-  text-align: center;
-  padding: 32px 0 24px;
-  position: relative;
-}
+button, input, textarea { font: inherit; }
+.app { max-width: 760px; margin: 0 auto; padding: 16px; }
+.header { text-align: center; padding: 32px 0 24px; position: relative; }
 .header::after {
-  content: '';
-  position: absolute; bottom: 0; left: 20%; right: 20%;
-  height: 1px;
+  content: ''; position: absolute; bottom: 0; left: 20%; right: 20%; height: 1px;
   background: linear-gradient(90deg, transparent, var(--accent), transparent);
 }
 .brand {
@@ -62,15 +52,11 @@ body::after {
   color: var(--accent); margin-bottom: 12px;
 }
 .header h1 {
-  font-size: 28px; font-weight: 800; letter-spacing: -1px;
+  font-size: 28px; font-weight: 800; letter-spacing: 0;
   background: linear-gradient(135deg, #fff, #aab);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
-.header p {
-  font-size: 13px; color: var(--text-dim); margin-top: 6px; font-weight: 300;
-}
-
-/* Today banner */
+.header p { font-size: 13px; color: var(--text-dim); margin-top: 6px; font-weight: 300; }
 .today-banner {
   margin: 24px 0; padding: 18px 20px;
   background: linear-gradient(135deg, var(--accent-dim), var(--blue-bg));
@@ -84,30 +70,45 @@ body::after {
 }
 .today-content { font-size: 15px; font-weight: 600; }
 .today-hint { font-size: 12px; color: var(--text-dim); margin-top: 3px; }
-
-/* Toggle row */
-.toggle-row { display: flex; gap: 8px; margin-bottom: 20px; }
-.toggle-btn {
+.toggle-row, .frame-row { display: flex; gap: 8px; margin-bottom: 20px; }
+.toggle-btn, .frame-btn {
   flex: 1; padding: 11px; border-radius: 10px;
   border: 1px solid var(--border); background: transparent;
   color: var(--text-dim); cursor: pointer; font-size: 13px;
-  font-family: 'Outfit', sans-serif; font-weight: 600;
-  transition: all 0.25s;
+  font-weight: 600; transition: all 0.25s;
 }
-.toggle-btn:hover { border-color: var(--accent); color: var(--text); }
-.toggle-btn.active {
-  background: var(--surface2); border-color: var(--accent);
-  color: var(--accent);
+.toggle-btn:hover, .frame-btn:hover { border-color: var(--accent); color: var(--text); }
+.toggle-btn.active, .frame-btn.active {
+  background: var(--surface2); border-color: var(--accent); color: var(--accent);
 }
-
-/* Section labels */
 .section-label {
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
-  color: var(--text-dim); margin-bottom: 12px; display: block;
+  color: var(--text-dim); margin: 18px 0 12px; display: block;
 }
-
-/* Category grid */
+.upload-zone {
+  display: grid; grid-template-columns: 1fr auto; gap: 14px; align-items: center;
+  width: 100%; padding: 18px; border-radius: var(--radius);
+  border: 1px dashed rgba(0,224,154,0.35); background: var(--surface);
+  color: var(--text); cursor: pointer; text-align: left;
+}
+.upload-zone.drag { border-color: var(--accent); background: var(--accent-dim); }
+.upload-title { font-size: 15px; font-weight: 800; }
+.upload-hint { font-size: 12px; color: var(--text-dim); margin-top: 3px; }
+.upload-meta {
+  font-family: 'JetBrains Mono', monospace; color: var(--accent);
+  font-size: 10px; margin-top: 8px; word-break: break-word;
+}
+.thumb {
+  width: 86px; height: 86px; border-radius: 10px; object-fit: cover;
+  border: 1px solid var(--border); background: var(--bg);
+}
+.warning, .error, .success {
+  margin-top: 12px; padding: 12px 14px; border-radius: 10px; font-size: 13px;
+}
+.warning { background: var(--yellow-bg); border: 1px solid rgba(255,204,68,0.18); color: #d9bb61; }
+.error { background: var(--red-bg); border: 1px solid rgba(255,85,102,0.22); color: #ff9aa5; }
+.success { background: var(--accent-dim); border: 1px solid var(--accent-border); color: var(--accent); }
 .cat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 24px; }
 .cat-btn {
   padding: 16px 14px; border-radius: 10px;
@@ -116,15 +117,10 @@ body::after {
   transition: all 0.2s; position: relative; overflow: hidden;
 }
 .cat-btn:hover { border-color: #444; transform: translateY(-1px); }
-.cat-btn.selected {
-  border-color: var(--accent); background: var(--accent-dim);
-  box-shadow: 0 0 20px rgba(0,224,154,0.05);
-}
+.cat-btn.selected { border-color: var(--accent); background: var(--accent-dim); }
 .cat-icon { font-size: 22px; margin-bottom: 6px; }
 .cat-name { font-size: 13px; font-weight: 700; }
 .cat-desc { font-size: 10px; color: var(--text-dim); margin-top: 3px; line-height: 1.4; }
-
-/* Expandable panels */
 .panel {
   background: var(--surface); border: 1px solid var(--border);
   border-radius: var(--radius); margin-bottom: 16px; overflow: hidden;
@@ -132,85 +128,65 @@ body::after {
 }
 .panel-inner { padding: 18px; }
 .panel h3 { font-size: 14px; font-weight: 700; margin-bottom: 14px; }
-
-/* Weekly calendar */
 .week-row {
   display: flex; align-items: center; gap: 12px;
   padding: 10px 0; border-bottom: 1px solid var(--border);
 }
 .week-row:last-child { border: none; }
-.week-day {
-  width: 80px; font-size: 12px; font-weight: 700; flex-shrink: 0;
-}
+.week-day { width: 80px; font-size: 12px; font-weight: 700; flex-shrink: 0; }
 .week-day.today { color: var(--accent); }
 .week-icon { font-size: 16px; flex-shrink: 0; }
 .week-info { flex: 1; }
 .week-cat { font-size: 13px; font-weight: 600; }
 .week-hint { font-size: 11px; color: var(--text-dim); }
-
-/* Content ideas chips */
 .ideas-wrap { display: flex; flex-wrap: wrap; gap: 6px; }
 .idea-chip {
   padding: 7px 14px; border-radius: 20px;
   border: 1px solid var(--border); background: transparent;
-  color: #bbb; cursor: pointer; font-size: 12px;
-  font-family: 'Outfit', sans-serif; transition: all 0.2s;
+  color: #bbb; cursor: pointer; font-size: 12px; transition: all 0.2s;
 }
 .idea-chip:hover { border-color: var(--accent); color: var(--text); }
 .idea-chip.selected { background: var(--accent); color: #000; border-color: var(--accent); font-weight: 600; }
-
-/* Textarea */
-.input-area {
+.input-area, .email-input {
   width: 100%; padding: 16px; border-radius: 10px;
   border: 1px solid var(--border); background: var(--surface);
-  color: var(--text); font-size: 14px; font-family: 'Outfit', sans-serif;
-  resize: vertical; min-height: 90px; outline: none;
-  transition: border-color 0.2s;
+  color: var(--text); font-size: 14px; outline: none; transition: border-color 0.2s;
 }
-.input-area:focus { border-color: var(--accent); }
-.input-area::placeholder { color: var(--text-dim); }
-
-/* Tone selector */
+.input-area { resize: vertical; min-height: 90px; }
+.input-area:focus, .email-input:focus { border-color: var(--accent); }
+.input-area::placeholder, .email-input::placeholder { color: var(--text-dim); }
 .tone-row { display: flex; gap: 6px; margin: 12px 0; flex-wrap: wrap; }
 .tone-btn {
   padding: 6px 14px; border-radius: 20px;
   border: 1px solid var(--border); background: transparent;
   color: var(--text-dim); cursor: pointer; font-size: 12px;
-  font-family: 'Outfit', sans-serif; font-weight: 500;
-  transition: all 0.2s;
+  font-weight: 500; transition: all 0.2s;
 }
 .tone-btn:hover { border-color: #555; color: var(--text); }
 .tone-btn.active { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); font-weight: 700; }
-
-/* Generate buttons */
 .gen-row { display: flex; gap: 8px; margin-top: 12px; }
 .gen-btn {
   flex: 1; padding: 15px; border-radius: 10px; border: none;
   background: var(--accent); color: #000; font-weight: 800;
-  font-size: 15px; cursor: pointer; font-family: 'Outfit', sans-serif;
-  transition: all 0.2s; letter-spacing: -0.3px;
+  font-size: 15px; cursor: pointer; transition: all 0.2s; letter-spacing: 0;
 }
 .gen-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(0,224,154,0.2); }
-.gen-btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none; box-shadow: none; }
+.gen-btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; box-shadow: none; }
 .gen-btn-alt {
   padding: 15px 20px; border-radius: 10px;
   border: 1px solid var(--border); background: transparent;
   color: var(--text-dim); font-weight: 600; font-size: 13px;
-  cursor: pointer; font-family: 'Outfit', sans-serif;
-  transition: all 0.2s;
+  cursor: pointer; transition: all 0.2s;
 }
 .gen-btn-alt:hover { border-color: #555; color: var(--text); }
-
-/* Output card */
 .output-card {
   background: var(--surface); border: 1px solid var(--accent-border);
   border-radius: 16px; overflow: hidden; margin: 24px 0;
-  animation: fadeSlide 0.5s ease;
-  box-shadow: 0 0 40px rgba(0,224,154,0.03);
+  animation: fadeSlide 0.5s ease; box-shadow: 0 0 40px rgba(0,224,154,0.03);
 }
 .output-header {
   padding: 16px 20px; border-bottom: 1px solid var(--border);
-  display: flex; justify-content: space-between; align-items: center;
+  display: flex; justify-content: space-between; align-items: center; gap: 12px;
 }
 .output-title { font-size: 14px; font-weight: 700; }
 .output-subtitle { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
@@ -218,64 +194,37 @@ body::after {
   font-family: 'JetBrains Mono', monospace;
   font-size: 9px; padding: 4px 10px; border-radius: 20px;
   background: var(--accent-dim); color: var(--accent);
-  font-weight: 700; letter-spacing: 1px;
+  font-weight: 700; letter-spacing: 1px; white-space: nowrap;
 }
-
-/* Photo tip */
-.photo-tip {
-  margin: 16px 20px 0; padding: 12px 14px; border-radius: 8px;
-  background: var(--blue-bg); border: 1px solid rgba(85,136,255,0.15);
-}
-.photo-tip-label {
-  font-size: 10px; color: var(--blue); font-weight: 700;
-  font-family: 'JetBrains Mono', monospace; letter-spacing: 1px;
-  margin-bottom: 4px;
-}
-.photo-tip-text { font-size: 12px; color: #8899cc; }
-
-/* Caption block */
 .caption-block { padding: 16px 20px; }
 .caption-header {
   display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 8px;
+  margin-bottom: 8px; gap: 10px;
 }
 .caption-label {
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px; color: var(--text-dim); letter-spacing: 1px; text-transform: uppercase;
 }
-.copy-btn {
+.copy-btn, .download-btn {
   padding: 5px 14px; border-radius: 6px;
   border: 1px solid var(--border); background: transparent;
   color: var(--text-dim); cursor: pointer; font-size: 11px;
-  font-family: 'Outfit', sans-serif; font-weight: 600;
-  transition: all 0.2s;
+  font-weight: 600; transition: all 0.2s; text-decoration: none;
 }
-.copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+.copy-btn:hover, .download-btn:hover { border-color: var(--accent); color: var(--accent); }
 .copy-btn.copied { background: var(--accent); color: #000; border-color: var(--accent); }
-.caption-text {
-  padding: 16px; border-radius: 8px;
-  background: var(--bg); border: 1px solid var(--border);
-  white-space: pre-wrap; font-size: 13px; line-height: 1.8;
-  color: #ccccd8;
+.caption-text, .hashtag-text {
+  padding: 16px; border-radius: 8px; background: var(--bg);
+  border: 1px solid var(--border); white-space: pre-wrap;
 }
-.hashtag-text {
-  padding: 14px; border-radius: 8px;
-  background: var(--bg); border: 1px solid var(--border);
-  font-size: 12px; color: var(--blue); line-height: 1.9;
-  word-break: break-word;
+.caption-text { font-size: 13px; line-height: 1.8; color: #ccccd8; }
+.hashtag-text { font-size: 12px; color: var(--blue); line-height: 1.9; word-break: break-word; }
+.preview-wrap { padding: 18px 20px 4px; }
+.preview-img {
+  display: block; width: min(50%, 360px); min-width: 220px;
+  height: auto; border-radius: 10px; border: 1px solid var(--border);
+  background: var(--bg);
 }
-
-/* Copy all button */
-.copy-all-btn {
-  width: 100%; padding: 15px; border-radius: 10px; border: none;
-  background: var(--surface3); color: var(--text);
-  font-weight: 700; font-size: 14px; cursor: pointer;
-  font-family: 'Outfit', sans-serif; transition: all 0.2s;
-}
-.copy-all-btn:hover { background: var(--accent); color: #000; }
-.copy-all-btn.copied { background: var(--accent); color: #000; }
-
-/* Pipeline steps */
 .pipeline { margin-top: 24px; }
 .pipe-step {
   display: flex; align-items: flex-start; gap: 14px;
@@ -286,195 +235,141 @@ body::after {
   width: 30px; height: 30px; border-radius: 8px;
   background: var(--accent-dim); color: var(--accent);
   display: flex; align-items: center; justify-content: center;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px; font-weight: 700; flex-shrink: 0;
+  font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; flex-shrink: 0;
 }
 .pipe-text { flex: 1; font-size: 13px; padding-top: 4px; }
 .pipe-time {
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px; color: var(--text-dim); flex-shrink: 0; padding-top: 6px;
 }
-
-/* Footer */
 .footer {
   text-align: center; padding: 32px 0 16px;
-  font-size: 11px; color: #333;
-  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: #333; font-family: 'JetBrains Mono', monospace;
 }
-
-/* Animations */
+.spinner {
+  width: 18px; height: 18px; border-radius: 50%;
+  border: 2px solid rgba(0,0,0,0.2); border-top-color: #000;
+  display: inline-block; vertical-align: middle; animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
 @keyframes fadeSlide {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
 }
-
 @media (max-width: 520px) {
+  .app { padding: 14px; }
   .cat-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
   .cat-btn { padding: 12px 10px; }
   .header h1 { font-size: 22px; }
   .tone-row { gap: 4px; }
+  .upload-zone { grid-template-columns: 1fr; }
+  .thumb { width: 100%; height: 160px; }
+  .preview-img { width: 100%; min-width: 0; }
+  .gen-row, .toggle-row, .frame-row { flex-direction: column; }
 }
 </style>
 </head>
 <body>
 <div class="app" id="app"></div>
+<input id="fileInput" type="file" accept="image/*" capture="environment" hidden>
 
 <script>
 const CATEGORIES = [
-  { id:"before_after", label:"Öncesi / Sonrası", icon:"🔧", desc:"Tamir öncesi ve sonrası", canva:"1080×1080", photoTip:"İki fotoğraf yan yana: sol bozuk, sağ tamirli" },
-  { id:"tip", label:"Bakım İpucu", icon:"💡", desc:"Araç bakım bilgisi ve tavsiye", canva:"1080×1350", photoTip:"İlgili parçanın yakın çekim fotoğrafı" },
-  { id:"campaign", label:"Kampanya / İndirim", icon:"🏷️", desc:"Özel teklif veya mevsimsel kampanya", canva:"1080×1080", photoTip:"Logo + fiyat + dikkat çekici renk" },
-  { id:"team", label:"Ekip Tanıtım", icon:"👨‍🔧", desc:"Usta tanıtımı veya çalışma anı", canva:"1080×1350", photoTip:"Ustanın iş başında doğal fotoğrafı" },
-  { id:"daily_work", label:"Günlük İş", icon:"🚗", desc:"Bugün yapılan tamir işi", canva:"1080×1080", photoTip:"Tamir edilen parça veya araç (plaka kapalı)" },
-  { id:"customer", label:"Müşteri Memnuniyeti", icon:"⭐", desc:"Mutlu müşteri veya yorum paylaşımı", canva:"1080×1080", photoTip:"Müşteri izniyle fotoğraf veya yorum screenshot" },
-  { id:"towing", label:"Çekici Hizmeti", icon:"🚛", desc:"Ücretsiz çekici hizmeti tanıtımı", canva:"1080×1350", photoTip:"Çekici aracı veya kurtarma anı" },
-  { id:"question", label:"Soru / Anket", icon:"❓", desc:"Takipçi etkileşimi artırma", canva:"1080×1080", photoTip:"Sade arka plan + büyük soru metni" },
-  { id:"reels", label:"Reels / Video", icon:"🎬", desc:"Kısa video içerik önerisi", canva:"1080×1920", photoTip:"15-30 sn dikey video, yakın çekim" },
-  { id:"seasonal", label:"Mevsimsel", icon:"🌡️", desc:"Yaz/kış hazırlık ve bakım", canva:"1080×1080", photoTip:"Mevsimi temsil eden görsel + araç" }
+  { id:"daily_work", label:"Günlük İş", icon:"🚗", desc:"Bugün yapılan tamir işi", canva:"1080×1080", photoTip:"Tamir edilen parça veya araç net görünsün." },
+  { id:"campaign", label:"Kampanya / İndirim", icon:"🏷️", desc:"Özel teklif veya mevsimsel kampanya", canva:"1080×1080", photoTip:"Servis, araç veya kampanyayı temsil eden temiz bir kare seçin." },
+  { id:"customer", label:"Müşteri Memnuniyeti", icon:"⭐", desc:"Mutlu müşteri veya yorum paylaşımı", canva:"1080×1080", photoTip:"Müşteri izniyle teslim anı veya yorum ekran görüntüsü kullanın." },
+  { id:"towing", label:"Çekici Hizmeti", icon:"🚛", desc:"Ücretsiz çekici hizmeti tanıtımı", canva:"1080×1350", photoTip:"Çekici aracı veya kurtarma anını dikey kadraja alın." }
 ];
 
+const V_NEXT_CATEGORIES = ["before_after", "tip", "team", "question", "reels", "seasonal"];
+
 const TONES = [
-  { id:"story", label:"Hikaye", desc:"Detaylı anlatım" },
-  { id:"short", label:"Kısa & Net", desc:"Story/Reels için" },
-  { id:"educational", label:"Eğitici", desc:"Bilgi paylaşımı" },
-  { id:"urgent", label:"Acil / CTA", desc:"Hemen ara mesajı" }
+  { id:"story", label:"Hikaye" },
+  { id:"short", label:"Kısa & Net" },
+  { id:"educational", label:"Eğitici" },
+  { id:"urgent", label:"Acil / CTA" }
 ];
 
 const WEEKLY = [
   { day:"Pazartesi", catId:"daily_work", hint:"Hafta başı — bugünkü ilk işin fotoğrafı" },
-  { day:"Salı", catId:"tip", hint:"Bakım ipucu paylaş" },
-  { day:"Çarşamba", catId:"before_after", hint:"Tamamlanan bir işin öncesi/sonrası" },
+  { day:"Salı", catId:"customer", hint:"Müşteri memnuniyeti veya teslim anı" },
+  { day:"Çarşamba", catId:"daily_work", hint:"Tamamlanan bir tamir işini paylaş" },
   { day:"Perşembe", catId:"towing", hint:"Çekici hizmeti vurgusu" },
   { day:"Cuma", catId:"campaign", hint:"Hafta sonu kampanyası" },
-  { day:"Cumartesi", catId:"reels", hint:"Kısa video — tamir süreci time-lapse" },
-  { day:"Pazar", catId:"question", hint:"Etkileşim postu — soru veya anket" }
+  { day:"Cumartesi", catId:"daily_work", hint:"Servisten doğal bir iş karesi" },
+  { day:"Pazar", catId:"customer", hint:"Güven veren yorum veya teşekkür postu" }
 ];
 
 const IDEAS = {
-  before_after:["Fren balata değişimi","Motor yağ + filtre bakımı","Süspansiyon tamiri","Klima sistemi bakımı","Triger seti değişimi","Amortisör değişimi","Egzoz sistemi tamiri","Debriyaj seti değişimi","V kayışı değişimi","Enjektör temizliği","Radyatör tamiri","Rot balans ayarı","Silecek motoru değişimi","Far polisaj"],
-  tip:["Motor yağınızı ne sıklıkla kontrol etmelisiniz?","Fren pedalı yumuşaksa ne anlama gelir?","Aracınızdan garip ses geliyorsa kontrol etmeniz gereken 5 şey","Kışa hazırlık: antifriz kontrolü neden önemli?","Yaz sıcaklarında klima bakımı neden şart?","Motor uyarı lambası yandığında ne yapmalısınız?","Lastik hava basıncını neden düzenli kontrol etmelisiniz?","Akü ömrünü uzatmanın 3 yolu","Direksiyon titremesi ne anlama gelir?","Araçtan yanık kokusu geliyorsa dikkat!","Vites geçişinde sertlik neden olur?","Debriyaj pedalı sertleşiyorsa ne yapmalı?","Aracınızın yakıt tüketimi neden arttı?","Fren diski ne zaman değiştirilmeli?","ABS lambası yanıyorsa ne anlama gelir?","Egzozdan beyaz duman geliyorsa dikkat"],
-  campaign:["Bu hafta periyodik bakımda %15 indirim","Yaz klima bakım kampanyası — 500₺'den başlayan","Fren bakımı yaptırana ücretsiz araç kontrol","İlk ziyaretinize özel %10 indirim","2 arkadaşını getir, bakımın %20 indirimli","Kış bakım paketi: antifriz + akü + yağ kontrol","Ramazan özel: gece serviste %10 indirim","Yol çıkışı öncesi 21 nokta kontrol ücretsiz"],
-  daily_work:["Renault Clio motor bakımı","Fiat Egea fren sistemi tamiri","Ford Focus süspansiyon değişimi","VW Polo klima gaz dolumu","Hyundai i20 periyodik bakım","Toyota Corolla motor arıza tespiti","Opel Astra triger seti değişimi","Dacia Duster amortisör değişimi","Peugeot 208 debriyaj seti","Honda Civic fren balata değişimi","Renault Megane turbo tamiri","Fiat Doblo enjektör temizliği","Ford Courier dizel filtre değişimi","VW Golf direksiyon pompası tamiri"],
-  towing:["Yolda kalan müşterimizin aracını 30 dakikada kurtardık!","Çekici hizmetimiz 7/24 aktif — Ankara genelinde yanınızdayız","Servisimizde tamir yaptırın, çekici ücreti tamamen bizden","Gece 2'de aradılar, 40 dakikada oradaydık","Otobanda kalan müşterimize acil müdahale"],
-  question:["Aracınızın periyodik bakımını ne sıklıkla yaptırıyorsunuz?","Arabanızın markası ne? Yorumda paylaşın!","En çok hangi araç sorunuyla karşılaşıyorsunuz?","Kış mı yaz mı — arabanız için hangisi daha zorlu?","Motor sesi mi fren sesi mi daha çok endişelendirir?","Arabanıza isim taktınız mı?","İlk arabanız ne markaydi?","Manuel mi otomatik mi tercih edersiniz?","Araç bakımında en çok neyi ihmal ediyorsunuz?","Yetkili servise mi bağımsız servise mi güvenirsiniz?"],
-  team:["Ustamız 15 yıllık deneyimiyle motor tamirinde","Ekibimiz iş başında — bugün 6 araç bakıma girdi","Atölyemizde bir gün nasıl geçiyor?","Çıraklıktan ustalığa — ekibimizin hikayesi","Kahve molası sonrası geri iş başına!"],
-  customer:["Google'da 5 yıldızlı yeni yorumumuz","Müşterimiz aracını memnuniyetle teslim aldı","Düzenli müşterimizden güzel sözler","3. kez tercih eden müşterimize teşekkürler","Tavsiye ile gelen müşteri sayımız artıyor!"],
-  reels:["Fren balata değişimi time-lapse (15 sn)","Motor yağ değişimi yakın çekim","Kirli hava filtresi vs temiz — karşılaştırma","Arıza cihazı ile teşhis anı","Aşınmış parça ile yeni parçanın farkı","Müşteri teslim anı — mutlu yüzler","Sabah atölye açılışı — günün ilk arabası","Çekici ile araç kurtarma anı"],
-  seasonal:["Yaz öncesi klima bakımı neden şart?","Kışa hazırlık: antifriz + akü + lastik kontrolü","Yağmurlu havalarda fren mesafesi neden uzar?","Uzun yola çıkmadan önce kontrol edilmesi gereken 5 şey","Bahar bakımı — kış sonrası araç kontrolü","Bayram yolculuğu öncesi araç hazırlığı"]
+  daily_work:["Renault Clio motor bakımı","Fiat Egea fren sistemi tamiri","Ford Focus süspansiyon değişimi","VW Polo klima gaz dolumu","Hyundai i20 periyodik bakım","Toyota Corolla motor arıza tespiti","Opel Astra triger seti değişimi","Honda Civic fren balata değişimi"],
+  campaign:["Bu hafta periyodik bakımda %15 indirim","Yaz klima bakım kampanyası — 500₺'den başlayan","Fren bakımı yaptırana ücretsiz araç kontrol","İlk ziyaretinize özel %10 indirim"],
+  customer:["Google'da 5 yıldızlı yeni yorumumuz","Müşterimiz aracını memnuniyetle teslim aldı","Düzenli müşterimizden güzel sözler","Tavsiye ile gelen müşteri sayımız artıyor!"],
+  towing:["Yolda kalan müşterimizin aracını 30 dakikada kurtardık!","Çekici hizmetimiz 7/24 aktif — Ankara genelinde yanınızdayız","Servisimizde tamir yaptırın, çekici ücreti tamamen bizden","Gece 2'de aradılar, 40 dakikada oradaydık"]
 };
 
 const TEMPLATES = {
-  before_after: {
-    story: [
-      t => `🔧 ${t}\n\nÖncesi vs Sonrası — Fark ortada! 👀\n\nAracınızın bakımını ihmal etmeyin, küçük sorunlar büyümeden çözülsün.\n\n📍 H&C Otomotiv | Şaşmaz Oto Sanayi\n📞 0541 970 09 11\n💬 WhatsApp'tan randevu alın\n🚛 Yolda kaldıysanız çekici bizden!`,
-      t => `✅ ${t} — Başarıyla tamamlandı!\n\nMüşterimiz aracını yenilemiş olarak teslim aldı. Sorun erken fark edildi, büyümeden çözüldü.\n\nKaliteli işçilik, makul fiyat, memnun müşteri.\n\n📍 H&C Otomotiv | Şaşmaz\n📞 0541 970 09 11`,
-      t => `🔍 Bugün gelen araçta ${t.toLowerCase()} ihtiyacı tespit ettik.\n\nDetaylı inceleme → teşhis → onarım → test sürüşü → teslim.\n\nHer adımda müşterimizi bilgilendirdik. Şeffaf servis anlayışımızın farkını yaşayın.\n\n📍 Şaşmaz Oto Sanayi\n📞 0541 970 09 11`
-    ],
-    short: [
-      t => `✅ ${t}\n\nÖncesi ➡️ Sonrası\nFark ortada 👀\n\n📍 H&C Otomotiv | Şaşmaz\n📞 0541 970 09 11`,
-      t => `🔧 ${t} — Tamamlandı!\n\n📍 Şaşmaz | 7 gün açık\n📞 0541 970 09 11`
-    ],
-    educational: [
-      t => `📚 ${t} — Ne, Neden, Nasıl?\n\nBu işlem neden önemli? Zamanında yapılmazsa ne olur?\n\nDetayları kaydırarak öğrenin 👉\n\n📍 H&C Otomotiv | Şaşmaz\n📞 0541 970 09 11`,
-      t => `💡 ${t} hakkında bilmeniz gerekenler:\n\n• Ne zaman yapılmalı?\n• Belirtileri neler?\n• Yapılmazsa ne olur?\n\nDetaylar için bizi arayın — ücretsiz bilgilendirme.\n\n📍 Şaşmaz Oto Sanayi\n📞 0541 970 09 11`
-    ],
-    urgent: [
-      t => `⚠️ ${t} — Ertelemeyin!\n\nBu sorun büyümeden müdahale edin.\nHemen arayın, aynı gün çözüm.\n\n📞 0541 970 09 11\n📍 H&C Otomotiv | Şaşmaz\n🚛 Çekici bizden!`,
-    ]
-  },
-  tip: {
-    story: [
-      t => `💡 Biliyor muydunuz?\n\n${t}\n\nAracınızı tanıyın, sorunları erkenden fark edin! 🚗\n\n📍 H&C Otomotiv — Şaşmaz Oto Sanayi\n📞 0541 970 09 11`,
-      t => `🔍 Araç sahiplerine önemli bilgi:\n\n${t}\n\nBu konuda tereddütünüz varsa, ücretsiz kontrol için bizi arayın.\n\n📍 Şaşmaz | 7 gün açık\n📞 0541 970 09 11`
-    ],
-    short: [
-      t => `💡 ${t}\n\nBilgi kurtarır, ihmal masraf çıkarır.\n\n📍 H&C Otomotiv | Şaşmaz\n📞 0541 970 09 11`
-    ],
-    educational: [
-      t => `📚 ${t}\n\nÇoğu sürücünün bilmediği bu detay, aracınızın ömrünü uzatabilir.\n\nKaydırarak detayları öğrenin 👉\n\nSorunuz mu var? DM'den veya WhatsApp'tan yazın.\n\n📍 H&C Otomotiv | Şaşmaz\n📞 0541 970 09 11`,
-      t => `⚙️ Teknik bilgi:\n\n${t}\n\nBu kontrol 5 dakika sürer ama yapılmazsa binlerce lira masrafa yol açabilir.\n\n📍 Şaşmaz Oto Sanayi\n📞 0541 970 09 11`
-    ],
-    urgent: [
-      t => `⚠️ DİKKAT!\n\n${t}\n\nBu konuda emin değilseniz, hemen arayın.\nErken teşhis = düşük maliyet.\n\n📞 0541 970 09 11\n📍 H&C Otomotiv | Şaşmaz`
-    ]
-  },
   campaign: {
-    story: [ t => `🏷️ KAMPANYA!\n\n${t}\n\n⏰ Sınırlı süre — Randevunuzu hemen oluşturun!\n\n📍 H&C Otomotiv | Şaşmaz Oto Sanayi\n📞 0541 970 09 11\n💬 WhatsApp: wa.me/905419700911` ],
-    short: [ t => `🔥 ${t}\n\nKaçırmayın!\n\n📍 Şaşmaz | 7/7 açık\n📞 0541 970 09 11` ],
-    educational: [ t => `💰 ${t}\n\nNeden bu kampanya?\nÇünkü düzenli bakım, pahalı tamirden her zaman ucuzdur.\n\n📍 H&C Otomotiv | Şaşmaz\n📞 0541 970 09 11` ],
-    urgent: [ t => `🚨 SON GÜNLER!\n\n${t}\n\nBu fırsat kaçmadan hemen arayın!\n\n📞 0541 970 09 11\n📍 Şaşmaz Oto Sanayi\n💬 WhatsApp: wa.me/905419700911` ]
-  },
-  team: {
-    story: [ t => `👨‍🔧 ${t}\n\nHer gün tutkuyla çalışan ekibimiz, aracınıza en iyi bakımı sunmak için burada.\n\n📍 H&C Otomotiv — Şaşmaz\n📞 0541 970 09 11` ],
-    short: [ t => `💪 ${t}\n\nGüvenilir eller, güvenilir servis.\n\n📍 Şaşmaz\n📞 0541 970 09 11` ],
-    educational: [ t => `🎓 ${t}\n\nDeneyim ve bilgi — her tamirin arkasında yıllarca emek var.\n\n📍 H&C Otomotiv | Şaşmaz\n📞 0541 970 09 11` ],
-    urgent: [ t => `👨‍🔧 ${t}\n\nUzman ekibimiz sizi bekliyor!\n\n📞 0541 970 09 11\n📍 Şaşmaz Oto Sanayi` ]
+    story: [t => `🏷️ KAMPANYA!\n\n${t}\n\n⏰ Sınırlı süre — Randevunuzu hemen oluşturun!\n\n📍 H&C Otomotiv | Şaşmaz Oto Sanayi\n📞 0541 970 09 11\n💬 WhatsApp: wa.me/905419700911`],
+    short: [t => `🔥 ${t}\n\nKaçırmayın!\n\n📍 Şaşmaz | 7/7 açık\n📞 0541 970 09 11`],
+    educational: [t => `💰 ${t}\n\nNeden bu kampanya?\nÇünkü düzenli bakım, pahalı tamirden her zaman ucuzdur.\n\n📍 H&C Otomotiv | Şaşmaz\n📞 0541 970 09 11`],
+    urgent: [t => `🚨 SON GÜNLER!\n\n${t}\n\nBu fırsat kaçmadan hemen arayın!\n\n📞 0541 970 09 11\n📍 Şaşmaz Oto Sanayi\n💬 WhatsApp: wa.me/905419700911`]
   },
   daily_work: {
     story: [
       t => `🚗 Bugün atölyemizde: ${t}\n\nCihazla arıza tespiti → teşhis → onarım → test sürüşü → teslim.\n\nHer iş titizlikle, her araç özenle.\n\n📍 H&C Otomotiv | Şaşmaz\n📞 0541 970 09 11\n🚛 Yolda mı kaldınız? Çekici bizden!`,
       t => `🔧 Günün işi: ${t}\n\nMüşterimiz sorunu anlattı, biz dinledik, teşhis koyduk ve aynı gün çözdük.\n\nAracınız güvende, siz de rahat olun.\n\n📍 Şaşmaz Oto Sanayi — 7/7 açık\n📞 0541 970 09 11`
     ],
-    short: [ t => `🔧 ${t} ✅\n\nBugün de bir araç daha yola çıktı.\n\n📍 H&C | Şaşmaz\n📞 0541 970 09 11` ],
-    educational: [ t => `🔍 Bugün gelen araç: ${t}\n\nBu arızanın sebebi neydi? Belirtileri nelerdi?\nKaydırarak öğrenin 👉\n\n📍 H&C Otomotiv | Şaşmaz\n📞 0541 970 09 11` ],
-    urgent: [ t => `✅ ${t} — Aynı gün çözüm!\n\nAracınızda sorun mu var? Ertelemeyin.\n\n📞 0541 970 09 11\n📍 Şaşmaz Oto Sanayi` ]
+    short: [t => `🔧 ${t} ✅\n\nBugün de bir araç daha yola çıktı.\n\n📍 H&C | Şaşmaz\n📞 0541 970 09 11`],
+    educational: [t => `🔍 Bugün gelen araç: ${t}\n\nBu arızanın sebebi neydi? Belirtileri nelerdi?\nKaydırarak öğrenin 👉\n\n📍 H&C Otomotiv | Şaşmaz\n📞 0541 970 09 11`],
+    urgent: [t => `✅ ${t} — Aynı gün çözüm!\n\nAracınızda sorun mu var? Ertelemeyin.\n\n📞 0541 970 09 11\n📍 Şaşmaz Oto Sanayi`]
   },
   customer: {
-    story: [ t => `⭐⭐⭐⭐⭐\n\n${t}\n\nMüşterilerimizin memnuniyeti bizim için en değerli referans.\n\n📍 H&C Otomotiv | Şaşmaz\n📞 0541 970 09 11\n\n💬 Siz de deneyiminizi Google'da paylaşın!` ],
-    short: [ t => `⭐ ${t}\n\nTeşekkürler! 🙏\n\n📍 H&C | Şaşmaz\n📞 0541 970 09 11` ],
-    educational: [ t => `🙏 ${t}\n\nMüşteri güveni nasıl kazanılır? Dürüst teşhis, şeffaf fiyat, kaliteli işçilik.\n\n📍 H&C Otomotiv | Şaşmaz\n📞 0541 970 09 11` ],
-    urgent: [ t => `⭐ ${t}\n\nSiz de güvenilir servis arıyorsanız hemen arayın!\n\n📞 0541 970 09 11\n📍 Şaşmaz Oto Sanayi` ]
+    story: [t => `⭐⭐⭐⭐⭐\n\n${t}\n\nMüşterilerimizin memnuniyeti bizim için en değerli referans.\n\n📍 H&C Otomotiv | Şaşmaz\n📞 0541 970 09 11\n\n💬 Siz de deneyiminizi Google'da paylaşın!`],
+    short: [t => `⭐ ${t}\n\nTeşekkürler! 🙏\n\n📍 H&C | Şaşmaz\n📞 0541 970 09 11`],
+    educational: [t => `🙏 ${t}\n\nMüşteri güveni nasıl kazanılır? Dürüst teşhis, şeffaf fiyat, kaliteli işçilik.\n\n📍 H&C Otomotiv | Şaşmaz\n📞 0541 970 09 11`],
+    urgent: [t => `⭐ ${t}\n\nSiz de güvenilir servis arıyorsanız hemen arayın!\n\n📞 0541 970 09 11\n📍 Şaşmaz Oto Sanayi`]
   },
   towing: {
-    story: [ t => `🚛 ${t}\n\nYolda mı kaldınız? Endişelenmeyin!\nServisimizde tamir yaptırın, çekici ücreti bizden! 🆓\n\n📞 Hemen arayın: 0541 970 09 11\n📍 H&C Otomotiv | Şaşmaz` ],
-    short: [ t => `🆘 ${t}\n\nÇekici bizden!\n\n📞 0541 970 09 11\n📍 Şaşmaz` ],
-    educational: [ t => `🚛 ${t}\n\nYolda kalınca ne yapmalı?\n1. Güvenli yere çekin\n2. Dörtlüleri açın\n3. Bizi arayın: 0541 970 09 11\n\nGerisini biz hallederiz.\n\n📍 H&C Otomotiv | Şaşmaz` ],
-    urgent: [ t => `🆘 YOLDA MI KALDINIZ?\n\n${t}\n\n7/24 çekici hizmeti — ücretsiz!\nHemen arayın!\n\n📞 0541 970 09 11\n📍 H&C Otomotiv | Şaşmaz` ]
-  },
-  question: {
-    story: [ t => `❓ ${t}\n\nYorumlarda cevabınızı bekliyoruz! 👇\n\n📍 H&C Otomotiv | Şaşmaz\n📞 0541 970 09 11` ],
-    short: [ t => `🤔 ${t}\n\nCevap yorumlarda! 👇\n\n📍 H&C | Şaşmaz` ],
-    educational: [ t => `🧠 Test zamanı!\n\n${t}\n\nDoğru cevabı bilen var mı? 💬\nCevabı yarın paylaşacağız!\n\n📍 H&C Otomotiv | Şaşmaz\n📞 0541 970 09 11` ],
-    urgent: [ t => `❓ ${t}\n\nCevabınızı merak ediyoruz!\n👇 Yorumlara yazın!\n\n📍 Şaşmaz Oto Sanayi` ]
-  },
-  reels: {
-    story: [ t => `🎬 ${t}\n\nİzlemesi kadar yapması da keyifli! 😄\n\nDaha fazlası için takip edin ➕\n\n📍 H&C Otomotiv | Şaşmaz\n📞 0541 970 09 11` ],
-    short: [ t => `🎬 ${t}\n\n📍 H&C | Şaşmaz\n📞 0541 970 09 11\n\nTakip et, kaçırma! ➕` ],
-    educational: [ t => `📹 ${t}\n\nBu işlem nasıl yapılır? Adım adım izleyin!\n\nKaydedin, lazım olacak 📌\n\n📍 H&C Otomotiv | Şaşmaz\n📞 0541 970 09 11` ],
-    urgent: [ t => `🎬 ${t}\n\nBu videoyu izlemeden geçme!\n\n📍 Şaşmaz Oto Sanayi\n📞 0541 970 09 11` ]
-  },
-  seasonal: {
-    story: [ t => `🌡️ ${t}\n\nMevsim değişirken aracınız da bakıma ihtiyaç duyar.\n\nBu basit kontrol, sizi yolda bırakmaz.\n\n📍 H&C Otomotiv | Şaşmaz\n📞 0541 970 09 11` ],
-    short: [ t => `🌡️ ${t}\n\nHazır mısınız?\n\n📍 H&C | Şaşmaz\n📞 0541 970 09 11` ],
-    educational: [ t => `📋 ${t}\n\nMevsimlik bakım listesi:\n✅ Antifriz kontrolü\n✅ Akü testi\n✅ Fren kontrolü\n✅ Klima bakımı\n✅ Lastik durumu\n\nHepsini tek seferde yaptırın.\n\n📍 H&C Otomotiv | Şaşmaz\n📞 0541 970 09 11` ],
-    urgent: [ t => `⚠️ ${t}\n\nMevsim değişti — aracınız hazır mı?\nGeç kalmadan randevu alın!\n\n📞 0541 970 09 11\n📍 Şaşmaz Oto Sanayi` ]
+    story: [t => `🚛 ${t}\n\nYolda mı kaldınız? Endişelenmeyin!\nServisimizde tamir yaptırın, çekici ücreti bizden! 🆓\n\n📞 Hemen arayın: 0541 970 09 11\n📍 H&C Otomotiv | Şaşmaz`],
+    short: [t => `🆘 ${t}\n\nÇekici bizden!\n\n📞 0541 970 09 11\n📍 Şaşmaz`],
+    educational: [t => `🚛 ${t}\n\nYolda kalınca ne yapmalı?\n1. Güvenli yere çekin\n2. Dörtlüleri açın\n3. Bizi arayın: 0541 970 09 11\n\nGerisini biz hallederiz.\n\n📍 H&C Otomotiv | Şaşmaz`],
+    urgent: [t => `🆘 YOLDA MI KALDINIZ?\n\n${t}\n\n7/24 çekici hizmeti — ücretsiz!\nHemen arayın!\n\n📞 0541 970 09 11\n📍 H&C Otomotiv | Şaşmaz`]
   }
 };
 
 const HASHTAGS = {
-  before_after: "#öncesisonrası #otomotiv #araçtamiri #şaşmaz #ankara #otoservis #hcotomotiv #mekanik #tamirci #araçbakım",
-  tip: "#araçbakım #otobakım #araçipuçları #güvenlik #periyodikbakım #ankara #şaşmaz #hcotomotiv #motoruyarı #sürücüler",
   campaign: "#kampanya #indirim #otoservis #araçbakım #şaşmaz #ankara #fırsat #hcotomotiv #uygunfiyat #servis",
-  team: "#ekibimiz #mekanik #usta #tamirci #otomotiv #şaşmaz #ankara #güvenilirservis #hcotomotiv #işbaşında",
   daily_work: "#gününtamiri #otoservis #mekanik #araçtamiri #şaşmaz #ankara #hcotomotiv #tamirci #servis #otomotiv",
   customer: "#müşterimemnuniyeti #googleyorum #güvenilir #otoservis #şaşmaz #ankara #hcotomotiv #5yıldız #referans",
-  towing: "#çekici #yoldakaldım #ücretsizçekici #acilservis #ankara #şaşmaz #hcotomotiv #araçkurtarma #7günacık",
-  question: "#anket #soru #otomotivbilgi #araçbakım #şaşmaz #ankara #hcotomotiv #etkileşim #arabam #sürücüler",
-  reels: "#reels #otoservis #mekanik #timelapse #araçtamiri #şaşmaz #ankara #hcotomotiv #keşfet #otomotiv",
-  seasonal: "#mevsimbakım #araçbakım #kışhazırlık #yazbakım #otoservis #şaşmaz #ankara #hcotomotiv #güvenlik"
+  towing: "#çekici #yoldakaldım #ücretsizçekici #acilservis #ankara #şaşmaz #hcotomotiv #araçkurtarma #7günacık"
 };
 
-// State
 let state = {
-  selectedCat: null,
+  selectedCat: CATEGORIES[0],
   selectedTone: "story",
+  frameMode: localStorage.getItem("hc_frame_mode") || "light",
   content: "",
+  email: localStorage.getItem("hc_operator_email") || "",
+  originalFile: null,
+  originalUrl: "",
+  uploadBlob: null,
+  uploadName: "",
   output: null,
+  previewUrl: "",
   variant: 0,
   showCalendar: false,
   showIdeas: false,
-  copied: null
+  copied: null,
+  busy: false,
+  drag: false,
+  warning: "",
+  error: "",
+  success: ""
 };
+
+function escapeHtml(text) {
+  return String(text).replace(/[&<>"']/g, ch => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[ch]));
+}
 
 function getTodayPlan() {
   const d = new Date().getDay();
@@ -482,60 +377,63 @@ function getTodayPlan() {
   return { ...WEEKLY[map[d]], index: map[d] };
 }
 
-function generate() {
-  const { selectedCat, selectedTone, content, variant } = state;
-  if (!selectedCat || !content.trim()) return;
-  const templates = TEMPLATES[selectedCat.id]?.[selectedTone] || TEMPLATES[selectedCat.id]?.story;
-  if (!templates) return;
-  const idx = variant % templates.length;
-  const caption = templates[idx](content.trim());
-  const hashtags = HASHTAGS[selectedCat.id] || "";
-  state.output = { caption, hashtags, canva: selectedCat.canva, photoTip: selectedCat.photoTip, label: selectedCat.label };
-  render();
-}
-
-function copyText(text, label) {
-  navigator.clipboard.writeText(text);
-  state.copied = label;
-  render();
-  setTimeout(() => { state.copied = null; render(); }, 2000);
+function currentOutput() {
+  const cat = state.selectedCat;
+  const templates = TEMPLATES[cat.id]?.[state.selectedTone] || TEMPLATES[cat.id]?.story;
+  if (!cat || !state.content.trim() || !templates) return null;
+  const caption = templates[state.variant % templates.length](state.content.trim());
+  return { caption, hashtags: HASHTAGS[cat.id], canva: cat.canva, photoTip: cat.photoTip, label: cat.label };
 }
 
 function render() {
+  state.output = currentOutput();
   const today = getTodayPlan();
   const todayCat = CATEGORIES.find(c => c.id === today.catId);
-  const { selectedCat, selectedTone, content, output, showCalendar, showIdeas, copied } = state;
+  const canSubmit = state.uploadBlob && state.selectedCat && state.content.trim() && state.email.trim() && !state.busy;
+  const output = state.output;
+  let html = "";
 
-  let html = '';
-
-  // Header
   html += `<div class="header">
     <div class="brand">H&C Otomotiv · Şaşmaz</div>
     <h1>Instagram Post Üretici</h1>
-    <p>Kategori seç → İçerik yaz → Ton seç → Hazır post al → Paylaş</p>
+    <p>Fotoğraf çek → çerçeve seç → açıklamayı hazırla → PNG e-postana gelsin</p>
   </div>`;
 
-  // Today
   html += `<div class="today-banner">
     <div class="today-label">📅 Bugünün Önerisi — ${today.day}</div>
     <div class="today-content">${todayCat.icon} ${todayCat.label}</div>
     <div class="today-hint">${today.hint}</div>
   </div>`;
 
-  // Toggles
-  html += `<div class="toggle-row">
-    <button class="toggle-btn ${showCalendar?'active':''}" onclick="toggleCal()">📆 Haftalık Plan</button>
-    <button class="toggle-btn ${showIdeas?'active':''}" onclick="toggleIdeas()">💡 İçerik Fikirleri</button>
+  html += `<span class="section-label">1. Fotoğraf Yükleyin</span>
+  <button class="upload-zone ${state.drag ? "drag" : ""}" onclick="openPicker()" ondragover="onDrag(event)" ondragleave="offDrag(event)" ondrop="onDrop(event)">
+    <div>
+      <div class="upload-title">${state.uploadBlob ? "Fotoğraf hazır" : "Fotoğraf seç veya buraya bırak"}</div>
+      <div class="upload-hint">Mobilde kamera açılır. Fotoğraf tarayıcıda 2048 px JPEG'e küçültülür.</div>
+      ${state.uploadName ? `<div class="upload-meta">${escapeHtml(state.uploadName)}</div>` : ""}
+    </div>
+    ${state.originalUrl ? `<img class="thumb" src="${state.originalUrl}" alt="Seçilen fotoğraf önizlemesi">` : `<div class="thumb"></div>`}
+  </button>`;
+
+  if (state.warning) html += `<div class="warning">${escapeHtml(state.warning)}</div>`;
+
+  html += `<span class="section-label">2. Çerçeve Modu</span>
+  <div class="frame-row">
+    <button class="frame-btn ${state.frameMode === "light" ? "active" : ""}" onclick="pickFrame('light')">Açık Çerçeve</button>
+    <button class="frame-btn ${state.frameMode === "dark" ? "active" : ""}" onclick="pickFrame('dark')">Koyu Çerçeve</button>
   </div>`;
 
-  // Calendar
-  if (showCalendar) {
+  html += `<div class="toggle-row">
+    <button class="toggle-btn ${state.showCalendar ? "active" : ""}" onclick="toggleCal()">📆 Haftalık Plan</button>
+    <button class="toggle-btn ${state.showIdeas ? "active" : ""}" onclick="toggleIdeas()">💡 İçerik Fikirleri</button>
+  </div>`;
+
+  if (state.showCalendar) {
     html += `<div class="panel"><div class="panel-inner"><h3>Haftalık İçerik Takvimi</h3>`;
     WEEKLY.forEach((w, i) => {
       const cat = CATEGORIES.find(c => c.id === w.catId);
-      const isToday = i === today.index;
       html += `<div class="week-row">
-        <div class="week-day ${isToday?'today':''}">${w.day}</div>
+        <div class="week-day ${i === today.index ? "today" : ""}">${w.day}</div>
         <div class="week-icon">${cat.icon}</div>
         <div class="week-info">
           <div class="week-cat">${cat.label}</div>
@@ -546,20 +444,17 @@ function render() {
     html += `</div></div>`;
   }
 
-  // Ideas
-  if (showIdeas && selectedCat && IDEAS[selectedCat.id]) {
-    html += `<div class="panel"><div class="panel-inner"><h3>${selectedCat.icon} ${selectedCat.label} İçerik Fikirleri</h3>
-    <div class="ideas-wrap">`;
-    IDEAS[selectedCat.id].forEach(idea => {
-      html += `<button class="idea-chip ${content===idea?'selected':''}" onclick="pickIdea('${idea.replace(/'/g,"\\'")}')">${idea}</button>`;
+  if (state.showIdeas && state.selectedCat && IDEAS[state.selectedCat.id]) {
+    html += `<div class="panel"><div class="panel-inner"><h3>${state.selectedCat.icon} ${state.selectedCat.label} İçerik Fikirleri</h3><div class="ideas-wrap">`;
+    IDEAS[state.selectedCat.id].forEach(idea => {
+      html += `<button class="idea-chip ${state.content === idea ? "selected" : ""}" onclick="pickIdea(${JSON.stringify(idea)})">${escapeHtml(idea)}</button>`;
     });
     html += `</div></div></div>`;
   }
 
-  // Categories
-  html += `<span class="section-label">1. Kategori Seçin</span><div class="cat-grid">`;
+  html += `<span class="section-label">3. Kategori Seçin</span><div class="cat-grid">`;
   CATEGORIES.forEach(cat => {
-    html += `<button class="cat-btn ${selectedCat?.id===cat.id?'selected':''}" onclick="pickCat('${cat.id}')">
+    html += `<button class="cat-btn ${state.selectedCat?.id === cat.id ? "selected" : ""}" onclick="pickCat('${cat.id}')">
       <div class="cat-icon">${cat.icon}</div>
       <div class="cat-name">${cat.label}</div>
       <div class="cat-desc">${cat.desc}</div>
@@ -567,109 +462,210 @@ function render() {
   });
   html += `</div>`;
 
-  // Input + Tone + Generate
-  if (selectedCat) {
-    html += `<span class="section-label">2. İçerik / Konu</span>
-    <textarea class="input-area" id="contentInput" placeholder="Örn: '${(IDEAS[selectedCat.id]||['İçerik yazın'])[0]}'" oninput="updateContent(this.value)">${content}</textarea>`;
+  const placeholder = (IDEAS[state.selectedCat.id] || ["İçerik yazın"])[0];
+  html += `<span class="section-label">4. İçerik / Konu</span>
+  <textarea class="input-area" id="contentInput" maxlength="500" placeholder="Örn: '${escapeHtml(placeholder)}'" oninput="updateContent(this.value)">${escapeHtml(state.content)}</textarea>`;
 
-    html += `<span class="section-label" style="margin-top:16px">3. Ton Seçin</span><div class="tone-row">`;
-    TONES.forEach(t => {
-      html += `<button class="tone-btn ${selectedTone===t.id?'active':''}" onclick="pickTone('${t.id}')">${t.label}</button>`;
-    });
-    html += `</div>`;
-
-    html += `<div class="gen-row">
-      <button class="gen-btn" ${content.trim()?'':'disabled'} onclick="doGenerate()">Post Oluştur ✨</button>
-      ${output ? `<button class="gen-btn-alt" onclick="doVariant()">🔄 Farklı</button>` : ''}
-    </div>`;
-  }
-
-  // Output
-  if (output) {
-    html += `<div class="output-card">
-      <div class="output-header">
-        <div>
-          <div class="output-title">${output.label} Postu</div>
-          <div class="output-subtitle">Canva: ${output.canva} · Ton: ${TONES.find(t=>t.id===selectedTone)?.label||'Hikaye'}</div>
-        </div>
-        <div class="output-badge">HAZIR</div>
-      </div>
-      <div class="photo-tip">
-        <div class="photo-tip-label">📸 FOTOĞRAF İPUCU</div>
-        <div class="photo-tip-text">${output.photoTip}</div>
-      </div>
-      <div class="caption-block">
-        <div class="caption-header">
-          <span class="caption-label">Açıklama Metni</span>
-          <button class="copy-btn ${copied==='caption'?'copied':''}" onclick="doCopy('caption')">
-            ${copied==='caption'?'✓ Kopyalandı':'Kopyala'}
-          </button>
-        </div>
-        <div class="caption-text">${output.caption}</div>
-      </div>
-      <div class="caption-block" style="padding-top:0">
-        <div class="caption-header">
-          <span class="caption-label">Hashtag'ler</span>
-          <button class="copy-btn ${copied==='hash'?'copied':''}" onclick="doCopy('hash')">
-            ${copied==='hash'?'✓ Kopyalandı':'Kopyala'}
-          </button>
-        </div>
-        <div class="hashtag-text">${output.hashtags}</div>
-      </div>
-      <div style="padding:0 20px 20px">
-        <button class="copy-all-btn ${copied==='all'?'copied':''}" onclick="doCopy('all')">
-          ${copied==='all'?'✓ Tümü Kopyalandı!':'📋 Metin + Hashtag Birlikte Kopyala'}
-        </button>
-      </div>
-    </div>`;
-  }
-
-  // Pipeline
-  html += `<div class="panel pipeline"><div class="panel-inner">
-    <h3>📱 Günlük Pipeline — 10 Dakikada Post</h3>`;
-  [
-    {s:"1",t:"Serviste fotoğraf çek (iş başı, öncesi/sonrası, araç)",time:"2 dk"},
-    {s:"2",t:"Bu sistemi aç → kategori + ton seç → konu yaz → post oluştur",time:"2 dk"},
-    {s:"3",t:"Canva'da şablonunuza fotoğrafı ve metni ekleyin",time:"4 dk"},
-    {s:"4",t:"Instagram'a yükle → metni yapıştır → hashtag ekle → paylaş",time:"2 dk"}
-  ].forEach(p => {
-    html += `<div class="pipe-step">
-      <div class="pipe-num">${p.s}</div>
-      <div class="pipe-text">${p.t}</div>
-      <div class="pipe-time">${p.time}</div>
-    </div>`;
+  html += `<span class="section-label">5. Ton Seçin</span><div class="tone-row">`;
+  TONES.forEach(t => {
+    html += `<button class="tone-btn ${state.selectedTone === t.id ? "active" : ""}" onclick="pickTone('${t.id}')">${t.label}</button>`;
   });
-  html += `</div></div>`;
+  html += `</div>`;
 
-  html += `<div class="footer">H&C Otomotiv · Instagram Pipeline v2.0</div>`;
+  html += `<span class="section-label">6. E-posta</span>
+  <input class="email-input" id="emailInput" type="email" inputmode="email" autocomplete="email" placeholder="operator@example.com" value="${escapeHtml(state.email)}" oninput="updateEmail(this.value)">`;
 
-  document.getElementById('app').innerHTML = html;
+  if (output) html += renderOutput(output, false);
+
+  html += `<div class="gen-row">
+    <button class="gen-btn" ${canSubmit ? "" : "disabled"} onclick="submitPost()">${state.busy ? `<span class="spinner"></span> Hazırlanıyor...` : "Görsel Oluştur ve Gönder"}</button>
+    ${output ? `<button class="gen-btn-alt" onclick="doVariant()">🔄 Farklı</button>` : ""}
+  </div>`;
+
+  if (state.error) html += `<div class="error">${escapeHtml(state.error)}</div>`;
+  if (state.success) html += `<div class="success">${escapeHtml(state.success)}</div>`;
+
+  if (state.previewUrl && output) html += renderOutput(output, true);
+
+  html += `<div class="panel pipeline"><div class="panel-inner">
+    <h3>📱 Günlük Pipeline — 2 Dakikada Post</h3>
+    ${[
+      {s:"1",t:"Serviste fotoğraf çek ve bu sayfaya yükle",time:"30 sn"},
+      {s:"2",t:"Kategori, çerçeve, ton ve kısa konuyu seç",time:"45 sn"},
+      {s:"3",t:"Görseli oluştur; PNG ve açıklama e-postaya gelsin",time:"15 sn"},
+      {s:"4",t:"Telefonundan e-postayı aç, Instagram'a yapıştır ve paylaş",time:"30 sn"}
+    ].map(p => `<div class="pipe-step"><div class="pipe-num">${p.s}</div><div class="pipe-text">${p.t}</div><div class="pipe-time">${p.time}</div></div>`).join("")}
+  </div></div>`;
+
+  html += `<div class="footer">H&C Otomotiv · Instagram Pipeline v0</div>`;
+  document.getElementById("app").innerHTML = html;
 }
 
-// Event handlers
-function pickCat(id) {
-  state.selectedCat = CATEGORIES.find(c => c.id === id);
-  state.output = null;
-  state.variant = 0;
+function renderOutput(output, withPreview) {
+  return `<div class="output-card">
+    <div class="output-header">
+      <div>
+        <div class="output-title">${output.label} Postu</div>
+        <div class="output-subtitle">${output.canva} · Ton: ${TONES.find(t => t.id === state.selectedTone)?.label || "Hikaye"} · ${state.frameMode === "light" ? "Açık" : "Koyu"} çerçeve</div>
+      </div>
+      <div class="output-badge">${withPreview ? "GÖNDERİLDİ" : "ÖNİZLEME"}</div>
+    </div>
+    ${withPreview ? `<div class="preview-wrap">
+      <img class="preview-img" src="${state.previewUrl}" alt="Oluşturulan Instagram görseli">
+      <div style="margin-top:12px"><a class="download-btn" href="${state.previewUrl}" download="hc-instagram-post.png">Tekrar İndir</a></div>
+    </div>` : ""}
+    <div class="caption-block">
+      <div class="caption-header">
+        <span class="caption-label">Açıklama Metni</span>
+        <button class="copy-btn ${state.copied === "caption" ? "copied" : ""}" onclick="doCopy('caption')">${state.copied === "caption" ? "✓ Kopyalandı" : "Kopyala"}</button>
+      </div>
+      <div class="caption-text">${escapeHtml(output.caption)}</div>
+    </div>
+    <div class="caption-block" style="padding-top:0">
+      <div class="caption-header">
+        <span class="caption-label">Hashtag'ler</span>
+        <button class="copy-btn ${state.copied === "hash" ? "copied" : ""}" onclick="doCopy('hash')">${state.copied === "hash" ? "✓ Kopyalandı" : "Kopyala"}</button>
+      </div>
+      <div class="hashtag-text">${escapeHtml(output.hashtags)}</div>
+    </div>
+  </div>`;
+}
+
+function openPicker() { document.getElementById("fileInput").click(); }
+document.getElementById("fileInput").addEventListener("change", event => handleFile(event.target.files[0]));
+
+function onDrag(event) { event.preventDefault(); state.drag = true; render(); }
+function offDrag(event) { event.preventDefault(); state.drag = false; render(); }
+function onDrop(event) {
+  event.preventDefault();
+  state.drag = false;
+  handleFile(event.dataTransfer.files[0]);
+}
+
+async function handleFile(file) {
+  if (!file) return;
+  state.error = "";
+  state.success = "";
+  state.warning = "";
+  if (file.size > 20 * 1024 * 1024) {
+    state.warning = "Çok büyük bir fotoğraf seçtiniz. Lütfen normal modda çekin (ProRAW kapalı).";
+    state.uploadBlob = null;
+    render();
+    return;
+  }
+  if (state.originalUrl) URL.revokeObjectURL(state.originalUrl);
+  state.originalFile = file;
+  state.originalUrl = URL.createObjectURL(file);
+  state.uploadName = `${file.name || "kamera-fotografi"} · ${Math.round(file.size / 1024)} KB`;
+  render();
+  try {
+    state.uploadBlob = await downscaleImage(file);
+    state.uploadName += ` → ${Math.round(state.uploadBlob.size / 1024)} KB`;
+  } catch (error) {
+    state.uploadBlob = null;
+    state.error = "Fotoğraf tarayıcıda hazırlanamadı. Lütfen başka bir fotoğraf deneyin.";
+  }
   render();
 }
-function pickTone(id) { state.selectedTone = id; state.output = null; render(); }
-function pickIdea(idea) { state.content = idea; render(); }
-function updateContent(v) { state.content = v; }
-function toggleCal() { state.showCalendar = !state.showCalendar; state.showIdeas = false; render(); }
-function toggleIdeas() { state.showIdeas = !state.showIdeas; state.showCalendar = false; render(); }
-function doGenerate() { state.content = document.getElementById('contentInput')?.value || state.content; generate(); }
-function doVariant() { state.variant++; state.content = document.getElementById('contentInput')?.value || state.content; generate(); }
-function doCopy(type) {
-  if (!state.output) return;
-  let text = '';
-  if (type === 'caption') text = state.output.caption;
-  else if (type === 'hash') text = state.output.hashtags;
-  else text = state.output.caption + '\n\n' + state.output.hashtags;
-  copyText(text, type);
+
+function downscaleImage(file) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      const max = 2048;
+      const scale = Math.min(1, max / Math.max(img.naturalWidth, img.naturalHeight));
+      const width = Math.round(img.naturalWidth * scale);
+      const height = Math.round(img.naturalHeight * scale);
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext("2d", { alpha: false });
+      ctx.drawImage(img, 0, 0, width, height);
+      canvas.toBlob(blob => {
+        URL.revokeObjectURL(url);
+        blob ? resolve(blob) : reject(new Error("canvas export failed"));
+      }, "image/jpeg", 0.85);
+    };
+    img.onerror = () => {
+      URL.revokeObjectURL(url);
+      reject(new Error("image decode failed"));
+    };
+    img.src = url;
+  });
 }
 
-// Init
+function pickCat(id) {
+  state.selectedCat = CATEGORIES.find(c => c.id === id);
+  state.variant = 0;
+  state.previewUrl = "";
+  render();
+}
+function pickTone(id) { state.selectedTone = id; state.variant = 0; state.previewUrl = ""; render(); }
+function pickFrame(mode) {
+  state.frameMode = mode;
+  localStorage.setItem("hc_frame_mode", mode);
+  state.previewUrl = "";
+  render();
+}
+function pickIdea(idea) { state.content = idea; state.variant = 0; state.previewUrl = ""; render(); }
+let contentRenderTimer = null;
+function updateContent(value) {
+  state.content = value;
+  state.previewUrl = "";
+  clearTimeout(contentRenderTimer);
+  contentRenderTimer = setTimeout(render, 180);
+}
+function updateEmail(value) {
+  state.email = value;
+  localStorage.setItem("hc_operator_email", value);
+}
+function toggleCal() { state.showCalendar = !state.showCalendar; state.showIdeas = false; render(); }
+function toggleIdeas() { state.showIdeas = !state.showIdeas; state.showCalendar = false; render(); }
+function doVariant() { state.variant++; state.previewUrl = ""; render(); }
+
+function doCopy(type) {
+  const output = currentOutput();
+  if (!output) return;
+  const text = type === "caption" ? output.caption : output.hashtags;
+  navigator.clipboard.writeText(text);
+  state.copied = type;
+  render();
+  setTimeout(() => { state.copied = null; render(); }, 1600);
+}
+
+async function submitPost() {
+  const output = currentOutput();
+  if (!output || !state.uploadBlob || state.busy) return;
+  state.busy = true;
+  state.error = "";
+  state.success = "";
+  state.previewUrl = "";
+  render();
+
+  const form = new FormData();
+  form.append("photo", state.uploadBlob, "hc-photo.jpg");
+  form.append("category", state.selectedCat.id);
+  form.append("tone", state.selectedTone);
+  form.append("frame_mode", state.frameMode);
+  form.append("content", state.content.trim());
+  form.append("email", state.email.trim());
+  form.append("variant", String(state.variant));
+
+  try {
+    const response = await fetch("/api/render", { method: "POST", body: form });
+    const data = await response.json();
+    if (!response.ok || !data.ok) throw new Error(data.error || "Görsel oluşturulamadı.");
+    state.previewUrl = data.preview_url;
+    state.success = data.email_sent ? "E-postaya gönderildi." : "Görsel hazır. E-posta gönderimi devre dışı.";
+  } catch (error) {
+    state.error = error.message || "Beklenmeyen bir hata oluştu.";
+  } finally {
+    state.busy = false;
+    render();
+  }
+}
+
 render();
 </script>
 </body>
