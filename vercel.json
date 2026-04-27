@@ -9,6 +9,7 @@
   },
   "routes": [
     { "src": "/api/render", "dest": "/api/render.py" },
+    { "src": "/api/render.py", "dest": "/api/render.py" },
     { "src": "/api/health", "dest": "/api/render.py" },
     { "src": "/(.*)", "dest": "/index.html" }
   ]

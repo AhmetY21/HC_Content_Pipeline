@@ -432,7 +432,7 @@ function render() {
 
   const placeholder = (IDEAS[state.selectedCat.id] || ["İçerik yazın"])[0];
   html += `<span class="section-label">4. İçerik / Konu</span>
-  <textarea class="input-area" id="contentInput" maxlength="500" placeholder="Örn: '${escapeHtml(placeholder)}'" oninput="updateContent(this.value)">${escapeHtml(state.content)}</textarea>`;
+  <textarea class="input-area" id="contentInput" maxlength="500" placeholder="Örn: '${escapeHtml(placeholder)}'" oninput="updateContent(this.value)" onblur="render()">${escapeHtml(state.content)}</textarea>`;
 
   if (state.selectedCat && IDEAS[state.selectedCat.id]) {
     html += `<div class="panel"><div class="panel-inner"><h3>${state.selectedCat.icon} ${state.selectedCat.label} İçerik Fikirleri</h3><div class="ideas-wrap">`;
@@ -582,12 +582,13 @@ function pickFrame(mode) {
   render();
 }
 function pickIdea(idea) { state.content = idea; state.variant = 0; state.previewUrl = ""; render(); }
-let contentRenderTimer = null;
 function updateContent(value) {
   state.content = value;
   state.previewUrl = "";
-  clearTimeout(contentRenderTimer);
-  contentRenderTimer = setTimeout(render, 180);
+  state.error = "";
+  state.success = "";
+  const button = document.querySelector(".gen-btn");
+  if (button) button.disabled = !(state.uploadBlob && state.selectedCat && state.content.trim() && !state.busy);
 }
 function doVariant() { state.variant++; state.previewUrl = ""; render(); }
 
@@ -619,7 +620,7 @@ async function submitPost() {
   form.append("variant", String(state.variant));
 
   try {
-    const response = await fetch("/api/render", { method: "POST", body: form });
+    const response = await postRender(form);
     const responseText = await response.text();
     let data = {};
     try {
@@ -639,6 +640,16 @@ async function submitPost() {
     state.busy = false;
     render();
   }
+}
+
+async function postRender(form) {
+  let lastResponse = null;
+  for (const endpoint of ["/api/render", "/api/render.py"]) {
+    const response = await fetch(endpoint, { method: "POST", body: form });
+    lastResponse = response;
+    if (response.status !== 405) return response;
+  }
+  return lastResponse;
 }
 
 render();

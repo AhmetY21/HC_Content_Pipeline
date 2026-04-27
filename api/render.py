@@ -149,3 +149,16 @@ async def render_api(
     variant: int = Form(0),
 ) -> JSONResponse:
     return await _handle_render(photo, category, tone, frame_mode, content, email, variant)
+
+
+@app.post("/api/render.py")
+async def render_api_file_path(
+    photo: UploadFile = File(...),
+    category: str = Form(...),
+    tone: str = Form(...),
+    frame_mode: str = Form(...),
+    content: str = Form(...),
+    email: str = Form(""),
+    variant: int = Form(0),
+) -> JSONResponse:
+    return await _handle_render(photo, category, tone, frame_mode, content, email, variant)
