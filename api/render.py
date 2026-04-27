@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import base64
+import logging
 import re
 from datetime import datetime
 from pathlib import Path
@@ -21,6 +22,7 @@ MAX_CONTENT_LENGTH = 500
 MAX_UPLOAD_BYTES = 4_500_000
 ISTANBUL_TZ = ZoneInfo("Europe/Istanbul")
 ROOT = Path(__file__).resolve().parents[1]
+logger = logging.getLogger(__name__)
 
 app = FastAPI(title="H&C Otomotiv Content Pipeline")
 app.add_middleware(
@@ -72,6 +74,15 @@ async def _handle_render(
     try:
         caption, hashtags = generate_caption(category, tone, content, variant)
         png_bytes = compose_post(photo_bytes, category, frame_mode)
+    except RenderError as exc:
+        return _error(str(exc))
+    except Exception:
+        logger.exception("Image render failed")
+        return _error("Görsel hazırlanırken beklenmeyen bir hata oluştu.", status_code=500)
+
+    email_sent = False
+    email_error = ""
+    try:
         email_sent = send_post_email(
             recipient=email,
             category=category,
@@ -80,12 +91,12 @@ async def _handle_render(
             png_bytes=png_bytes,
             today=datetime.now(ISTANBUL_TZ).date(),
         )
-    except RenderError as exc:
-        return _error(str(exc))
     except RuntimeError as exc:
-        return _error(str(exc), status_code=500)
+        email_error = str(exc)
+        logger.warning("Email delivery skipped: %s", exc)
     except Exception:
-        return _error("Görsel hazırlanırken beklenmeyen bir hata oluştu.", status_code=500)
+        email_error = "Görsel hazırlandı ancak e-posta gönderilemedi. Vercel Gmail SMTP ayarlarını kontrol edin."
+        logger.exception("Email delivery failed")
 
     encoded = base64.b64encode(png_bytes).decode("ascii")
     return JSONResponse(
@@ -95,6 +106,7 @@ async def _handle_render(
             "caption": caption,
             "hashtags": hashtags,
             "email_sent": email_sent,
+            "email_error": email_error,
         }
     )
 

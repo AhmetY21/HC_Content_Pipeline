@@ -657,7 +657,9 @@ async function submitPost() {
     const data = await response.json();
     if (!response.ok || !data.ok) throw new Error(data.error || "Görsel oluşturulamadı.");
     state.previewUrl = data.preview_url;
-    state.success = data.email_sent ? "E-postaya gönderildi." : "Görsel hazır. E-posta gönderimi devre dışı.";
+    state.success = data.email_sent
+      ? "E-postaya gönderildi."
+      : `Görsel hazır. ${data.email_error || "E-posta gönderimi devre dışı."}`;
   } catch (error) {
     state.error = error.message || "Beklenmeyen bir hata oluştu.";
   } finally {
